@@ -14,6 +14,7 @@
 		37C1C6D9259BA7C700A7077E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37C1C6D7259BA7C700A7077E /* LaunchScreen.storyboard */; };
 		37C1C6E1259BC1A100A7077E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 37C1C6E0259BC1A100A7077E /* README.md */; };
 		37C1C6E7259BDF4E00A7077E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C1C6E6259BDF4E00A7077E /* Photo.swift */; };
+		37C1C6E9259BE0ED00A7077E /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C1C6E8259BE0ED00A7077E /* PhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		37C1C6DA259BA7C700A7077E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37C1C6E0259BC1A100A7077E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		37C1C6E6259BDF4E00A7077E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		37C1C6E8259BE0ED00A7077E /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				37C1C6E5259BDF0400A7077E /* Controller */,
+				37C1C6E8259BE0ED00A7077E /* PhotoCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37C1C6E7259BDF4E00A7077E /* Photo.swift in Sources */,
+				37C1C6E9259BE0ED00A7077E /* PhotoCollectionViewCell.swift in Sources */,
 				37C1C6D1259BA7C100A7077E /* ViewController.swift in Sources */,
 				37C1C6CD259BA7C100A7077E /* AppDelegate.swift in Sources */,
 				37C1C6CF259BA7C100A7077E /* SceneDelegate.swift in Sources */,
