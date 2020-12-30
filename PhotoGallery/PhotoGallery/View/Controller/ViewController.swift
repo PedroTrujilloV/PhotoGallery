@@ -23,7 +23,7 @@ class ViewController: UICollectionViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = UIColor.systemIndigo
         navigationItem.title = "PhotoGallery"
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.cellReuseID)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -31,7 +31,7 @@ class ViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.cellReuseID, for: indexPath) as! PhotoCollectionViewCell
         cell.backgroundColor = .red
         return cell
     }
