@@ -82,12 +82,18 @@ extension ViewController {
                 if status != .authorized {
                     self.getPhotoLibraryPermission()
                 } else {
-                    self.numberOfItemsInSection = 23
+                    DispatchQueue.main.async {
+                        self.numberOfItemsInSection = 23
+                        self.collectionView.reloadData()
+                    }
                 }
             }
         } else
          if authStatus == .authorized {
-            numberOfItemsInSection = 23
+            DispatchQueue.main.async {
+                self.numberOfItemsInSection = 23
+                self.collectionView.reloadData()
+            }
         }
         
     }
