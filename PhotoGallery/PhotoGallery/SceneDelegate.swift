@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,16 +20,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         guard let _ = (scene as? UIWindowScene) else { return }
-        if let windowScene = scene as? UIWindowScene {
-            self.window = UIWindow(windowScene: windowScene)
-            let rootVC = ViewController(collectionViewLayout: UICollectionViewFlowLayout())
-            let navController = UINavigationController(rootViewController: rootVC)
-            window?.rootViewController = navController
-            window?.makeKeyAndVisible()
-            
-        }
+        presentRootViewController(scene: scene)
         
     }
+    
+    func presentRootViewController(scene: UIScene) {
+        DispatchQueue.main.async {
+            if let windowScene = scene as? UIWindowScene {
+                self.window = UIWindow(windowScene: windowScene)
+                let rootVC = ViewController(collectionViewLayout: UICollectionViewFlowLayout())
+                let navController = UINavigationController(rootViewController: rootVC)
+                self.window?.rootViewController = navController
+                self.window?.makeKeyAndVisible()
+            }
+        }
+    }
+    
+    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
