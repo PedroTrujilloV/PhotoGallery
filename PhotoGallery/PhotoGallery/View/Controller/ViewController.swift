@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 let cellID = "CollectionViewCell"
 
@@ -14,11 +15,15 @@ class ViewController: UICollectionViewController {
     
     let spacing:CGFloat = 2
     let columns = 3
+    var numberOfItemsInSection = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getPhotoLibraryPermission()
         setup()
+       
     }
+    
     func setup(){
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = UIColor.systemIndigo
@@ -27,7 +32,7 @@ class ViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 23
+        return numberOfItemsInSection
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -63,3 +68,50 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ViewController {
+    
+    func getPhotoLibraryPermission() {
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        if  authStatus == .denied {
+            presentSettingsAlert()
+        } else if authStatus == .restricted  {
+            presentSettingsAlert()
+        } else if authStatus == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                print(status)
+                if status != .authorized {
+                    self.getPhotoLibraryPermission()
+                } else {
+                    self.numberOfItemsInSection = 23
+                }
+            }
+        } else
+         if authStatus == .authorized {
+            numberOfItemsInSection = 23
+        }
+        
+    }
+    
+    func presentSettingsAlert() {
+        print("presentSettingsAlert")
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "App Access Denied", message: "PhotoGallery App needs access to photo library in order to work.", preferredStyle: .alert)
+            let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
+            }
+            alert.addAction(settingsAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+        
+}
