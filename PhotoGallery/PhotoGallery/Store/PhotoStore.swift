@@ -50,7 +50,7 @@ class PhotoStore: ObservableObject{
             }
             currentGallery = byFavoriteGallery
         } else {
-            print("PhotoStore.fetchByFavorite: Problem fetching by favorite")
+            print("PhotoStore.fetchByFavorite: Problem fetching smarthAlbums")
         }
     }
     
@@ -62,9 +62,12 @@ class PhotoStore: ObservableObject{
             for i in 0..<fetchResult.count {
                 let asset = fetchResult.object(at: i)
                 print(asset)
-//                let vm = PhotoViewModel(asset)
-//                byFavoriteGallery.append(vm)
+                let vm = PhotoViewModel(asset)
+                byDateGallery.append(vm)
             }
+            currentGallery = byDateGallery
+        } else {
+            print("PhotoStore.fetchByDate: Problem fetching userCollections")
         }
     }
  
