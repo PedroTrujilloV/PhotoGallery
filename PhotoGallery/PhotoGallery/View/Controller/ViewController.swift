@@ -55,27 +55,6 @@ class ViewController: UICollectionViewController {
 }
 
 
-extension ViewController: UICollectionViewDelegateFlowLayout { // UICollectionViewDelegateFlowLayout
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let extraSpace = ( CGFloat(columns) * spacing ) + spacing
-        let sideLenght = ( view.frame.width - extraSpace ) / 3
-        return CGSize(width: sideLenght, height: sideLenght)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return  UIEdgeInsets(top: 10, left: spacing, bottom: 10, right: spacing)
-    }
-}
-
 extension ViewController { // getPhotoLibraryPermission
     
     func getPhotoLibraryPermission() {
