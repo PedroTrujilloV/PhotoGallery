@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
-    
+  /*  // Uncoment to use for individual custome cells 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let extraSpace = ( CGFloat(columns) * spacing ) + spacing
         let sideLenght = ( view.frame.width - extraSpace ) / 3
@@ -28,4 +28,5 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return  UIEdgeInsets(top: 10, left: spacing, bottom: 10, right: spacing)
     }
+     */
 }
