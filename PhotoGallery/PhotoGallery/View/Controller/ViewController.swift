@@ -9,19 +9,17 @@
 import UIKit
 import Photos
 
-let cellID = "CollectionViewCell"
 
 class ViewController: UICollectionViewController {
     
     let spacing:CGFloat = 2
     let columns = 3
-    var numberOfItemsInSection = 0
+    private var store:PhotoStore?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         getPhotoLibraryPermission()
         setup()
-       
     }
     
     func setup(){
@@ -31,12 +29,21 @@ class ViewController: UICollectionViewController {
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.cellReuseID)
     }
     
+    func setupDatasource(){
+        store = PhotoStore()
+        store?.fetchByFavorite()
+//        store?.fetchByDate()
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfItemsInSection
+        return store?.currentGallery.count ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.cellReuseID, for: indexPath) as! PhotoCollectionViewCell
+        if let vm = store?.currentGallery[indexPath.item] {
+            cell.setCellProperites(vm)
+        }
         cell.backgroundColor = .red
         return cell
     }
@@ -48,7 +55,8 @@ class ViewController: UICollectionViewController {
 }
 
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension ViewController: UICollectionViewDelegateFlowLayout { // UICollectionViewDelegateFlowLayout
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let extraSpace = ( CGFloat(columns) * spacing ) + spacing
         let sideLenght = ( view.frame.width - extraSpace ) / 3
@@ -68,7 +76,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController {
+extension ViewController { // getPhotoLibraryPermission
     
     func getPhotoLibraryPermission() {
         let authStatus = PHPhotoLibrary.authorizationStatus()
@@ -77,25 +85,24 @@ extension ViewController {
         } else if authStatus == .restricted  {
             presentSettingsAlert()
         } else if authStatus == .notDetermined {
-            PHPhotoLibrary.requestAuthorization { (status) in
+            PHPhotoLibrary.requestAuthorization {[weak self] (status) in
                 print(status)
                 if status != .authorized {
-                    self.getPhotoLibraryPermission()
+                    self?.getPhotoLibraryPermission()
                 } else {
+                    self?.setupDatasource()
                     DispatchQueue.main.async {
-                        self.numberOfItemsInSection = 23
-                        self.collectionView.reloadData()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
         } else
          if authStatus == .authorized {
+            self.setupDatasource()
             DispatchQueue.main.async {
-                self.numberOfItemsInSection = 23
                 self.collectionView.reloadData()
             }
         }
-        
     }
     
     func presentSettingsAlert() {
