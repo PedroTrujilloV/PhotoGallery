@@ -18,21 +18,19 @@ class ViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getPhotoLibraryPermission()
         setup()
+        getPhotoLibraryPermission()
     }
     
     func setup(){
-        collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor.systemIndigo
-        navigationItem.title = "PhotoGallery"
-        collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.cellReuseID)
+        navigationItem.title = "Photo Gallery"
+        collectionView = PhotoGalleryCollectionView(frame: collectionView.frame)
     }
     
     func setupDatasource(){
         store = PhotoStore()
-        store?.fetchByFavorite()
-//        store?.fetchByDate()
+//        store?.fetchByFavorite()
+        store?.fetchByDate()
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -95,7 +93,7 @@ extension ViewController { // getPhotoLibraryPermission
 
                 if UIApplication.shared.canOpenURL(settingsUrl) {
                     UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                        print("Settings opened: \(success)") // Prints true
+                        //print("Settings opened: \(success)")
                     })
                 }
             }
