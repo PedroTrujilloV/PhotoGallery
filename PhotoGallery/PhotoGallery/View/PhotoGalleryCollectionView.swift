@@ -21,6 +21,8 @@ class PhotoGalleryCollectionView: UICollectionView {
     }
     
     private func setup() {
+        self.alwaysBounceVertical = true
+        self.backgroundColor = UIColor.systemIndigo
         self.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.cellReuseID)
     }
     
