@@ -27,7 +27,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     var photoImage:UIImageView = {
        let imageV = UIImageView()
-       imageV.contentMode = .scaleToFill
+       imageV.contentMode = .scaleAspectFill
+        imageV.clipsToBounds = true
        imageV.backgroundColor = .white
        imageV.translatesAutoresizingMaskIntoConstraints = false
        imageV.image = UIImage(named: "cat_icon")
