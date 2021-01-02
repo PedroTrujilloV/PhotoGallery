@@ -24,7 +24,4 @@ class PhotoGalleryCollectionView: UICollectionView {
         self.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.cellReuseID)
     }
     
-    
-    
-
 }
