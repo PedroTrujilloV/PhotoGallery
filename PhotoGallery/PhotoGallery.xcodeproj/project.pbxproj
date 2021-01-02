@@ -106,8 +106,8 @@
 			children = (
 				37C1C6E5259BDF0400A7077E /* Controller */,
 				37C1C6E8259BE0ED00A7077E /* PhotoCollectionViewCell.swift */,
-				3707740B25A0FF4A009E78D6 /* Layout */,
 				3707741025A10384009E78D6 /* PhotoGalleryCollectionView.swift */,
+				3707740B25A0FF4A009E78D6 /* Layout */,
 			);
 			path = View;
 			sourceTree = "<group>";
