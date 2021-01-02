@@ -8,11 +8,11 @@
 
 import Foundation
 import CoreLocation
+import Photos
 
 struct Photo {
-    var name:String
     var date:Date
-    var image:Data
+    var asset:PHAsset
     var location:CLLocation
     var favorite:Bool
 }
