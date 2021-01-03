@@ -11,27 +11,25 @@ import Photos
 
 
 class ViewController: UICollectionViewController {
-    
-    let spacing:CGFloat = 2
-    let columns = 3
-    private var store:PhotoStore?
+
+    var store:PhotoStore?
+    private var segmentControl:UISegmentedControl?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        setupSegmentationController()
         getPhotoLibraryPermission()
     }
     
-    func setup(){
+    private func setup(){
         navigationItem.title = "Photo Gallery"
         collectionView = PhotoGalleryCollectionView(frame: collectionView.frame)
     }
-    
-    func setupDatasource(){
-        store = PhotoStore()
-//        store?.fetchByFavorite()
-        store?.fetchByDate()
-    }
+
+}
+
+extension ViewController {  // UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return store?.currentGallery.count ?? 0
@@ -52,4 +50,35 @@ class ViewController: UICollectionViewController {
     }
 }
 
+extension ViewController { // UISegmentedControl
+    private func setupSegmentationController(){
+        let titles = ["All","Favorites"]
+        segmentControl = UISegmentedControl(items: titles )
+        //segmentControl?.tintColor = .systemBackground
+        segmentControl?.backgroundColor = .systemYellow
+        for i in 0..<titles.count {
+            segmentControl?.setWidth(120, forSegmentAt: i)
+        }
+        segmentControl?.sizeToFit()
+        segmentControl?.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
+        segmentControl?.selectedSegmentIndex = 1
+        segmentControl?.sendActions(for: .valueChanged)
+        navigationItem.titleView = segmentControl
+    }
+    
+    @objc private func segmentChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            store?.fetchByDate()
+        case 1:
+            store?.fetchByFavorite()
+        default:
+            store?.fetchByFavorite()
+        }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        print("segmentChanged: \(sender.selectedSegmentIndex)")
+    }
+}
 
