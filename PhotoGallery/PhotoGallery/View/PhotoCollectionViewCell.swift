@@ -7,13 +7,10 @@
 //
 
 import UIKit
-import Combine
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
     static let cellReuseID = "CollectionViewCell"
-    private var cancellables:Array<AnyCancellable> = []
-    private let processingQueue = DispatchQueue(label: "ProcessingQueue")
     
     var stackV:UIStackView = {
        let stack = UIStackView()
@@ -25,7 +22,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    var photoImage:UIImageView = {
+    var photoThumbnailImage:UIImageView = {
        let imageV = UIImageView()
        imageV.contentMode = .scaleAspectFill
         imageV.clipsToBounds = true
@@ -40,13 +37,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         setup()
     }
     
-    deinit {
-        cancel()
-    }
-    
-    private func cancel(){
-        _ = cancellables.map({$0.cancel()})
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -57,27 +47,34 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         setupViewHierarchy()
         setupConstrains()
     }
+    
     func setCellProperites(_ viewModel:PhotoViewModel){
-        viewModel.requestImage(cellSize: self.frame.size) {[weak self] (image) in
-            self?.photoImage.image = image
+        viewModel.requestThumbnailImage(cellSize: self.frame.size) {[weak self] (image) in
+            DispatchQueue.main.async {
+                self?.photoThumbnailImage.image = image
+            }
         }
     }
     
-    
     private func setupViewHierarchy(){
         self.addSubview(stackV)
-        stackV.addArrangedSubview(photoImage)
+        stackV.addArrangedSubview(photoThumbnailImage)
     }
     
     private func setupConstrains(){
-        photoImage.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        photoImage.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        photoImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        photoImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        photoThumbnailImage.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        photoThumbnailImage.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        photoThumbnailImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        photoThumbnailImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
         stackV.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         stackV.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         stackV.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         stackV.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        photoThumbnailImage.image = nil
     }
 }
