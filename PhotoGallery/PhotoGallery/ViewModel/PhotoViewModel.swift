@@ -9,6 +9,7 @@
 import Foundation
 import Photos
 import UIKit
+import Combine
 
 class PhotoViewModel {
     
@@ -26,23 +27,29 @@ class PhotoViewModel {
     var favorite:Bool {
         return model.isFavorite
     }
+    var thumbnailImage:UIImage?
     
     init(_ model: PHAsset) {
         self.model = model
     }
     
-    func requestImage(cellSize: CGSize, completion:@escaping (UIImage) -> Void ) {
-        let thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
-        imageManager.requestImage(for: model,
+    func requestThumbnailImage(cellSize: CGSize, completion:@escaping (UIImage) -> Void ) {
+        if let image = thumbnailImage {
+            completion(image)
+            return
+        }
+        let thumbnailSize = CGSize(width: cellSize.width * self.scale, height: cellSize.height * self.scale)
+        self.imageManager.requestImage(for: self.model,
                                   targetSize: thumbnailSize,
                                   contentMode: .aspectFit,
                                   options: nil,
                                   resultHandler: { image, _ in
                                     
                                     if let image = image {
+                                        self.thumbnailImage = image
                                         completion(image)
                                     }
-        })
+                                  })
     }
 }
 
