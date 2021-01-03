@@ -11,15 +11,15 @@ import UIKit
 
 class PhotoGalleryCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
-    let spacing:CGFloat = 2
-    let columns = 3
+    static let spacing:CGFloat = 2
+    static let columns = 3
 
     init(frame:CGRect) {
         super.init()
-        self.sectionInset = UIEdgeInsets(top: 10, left: spacing, bottom: 10, right: spacing)
-        self.minimumInteritemSpacing = spacing
-        self.minimumLineSpacing = spacing
-        let extraSpace = ( CGFloat(columns) * spacing ) + spacing
+        self.sectionInset = UIEdgeInsets(top: 10, left: PhotoGalleryCollectionViewFlowLayout.spacing, bottom: 10, right: PhotoGalleryCollectionViewFlowLayout.spacing)
+        self.minimumInteritemSpacing = PhotoGalleryCollectionViewFlowLayout.spacing
+        self.minimumLineSpacing = PhotoGalleryCollectionViewFlowLayout.spacing
+        let extraSpace = ( CGFloat(PhotoGalleryCollectionViewFlowLayout.columns) * PhotoGalleryCollectionViewFlowLayout.spacing ) + PhotoGalleryCollectionViewFlowLayout.spacing
         let sideLenght = ( frame.width - extraSpace ) / 3
         self.itemSize = CGSize(width: sideLenght, height: sideLenght)
     }
