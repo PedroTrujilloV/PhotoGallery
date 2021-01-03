@@ -18,8 +18,7 @@ class PhotoStore: ObservableObject{
         didSet{ didChange.send(self) }
     }
     
-    private var byFavoriteGallery:Array<PhotoViewModel> = [] 
-    
+    private var byFavoriteGallery:Array<PhotoViewModel> = []
     private var byDateGallery:Array<PhotoViewModel> = []
     
     @Published var allPhotos:PHFetchResult<PHAsset> {
@@ -27,7 +26,6 @@ class PhotoStore: ObservableObject{
     }
     
     var smarthAlbums: PHFetchResult<PHAssetCollection> 
-    
     var userCollections: PHFetchResult<PHAssetCollection>
     
     init(){
@@ -40,11 +38,14 @@ class PhotoStore: ObservableObject{
     }
     
     func fetchByFavorite(){
+        if !byFavoriteGallery.isEmpty {
+            currentGallery = byFavoriteGallery
+            return
+        }
         if let collection = smarthAlbums.firstObject {
             let fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
             for i in 0..<fetchResult.count {
                 let asset = fetchResult.object(at: i)
-                print(asset)
                 let vm = PhotoViewModel(asset)
                 byFavoriteGallery.append(vm)
             }
@@ -55,19 +56,19 @@ class PhotoStore: ObservableObject{
     }
     
     func fetchByDate(){
-        print(userCollections)
-        if let collection = userCollections.firstObject {
-            print(collection)
-            let fetchResult = PHAsset.fetchAssets(in: collection, options: nil)
-            for i in 0..<fetchResult.count {
-                let asset = fetchResult.object(at: i)
-                print(asset)
+        if !byDateGallery.isEmpty {
+            currentGallery = byDateGallery
+            return
+        }
+        if allPhotos.count > 0 {
+            for i in 0..<allPhotos.count{
+                let asset = allPhotos.object(at: i)
                 let vm = PhotoViewModel(asset)
                 byDateGallery.append(vm)
             }
             currentGallery = byDateGallery
         } else {
-            print("PhotoStore.fetchByDate: Problem fetching userCollections")
+            print("PhotoStore.fetchByDate: Problem fetching allPhotos")
         }
     }
  
