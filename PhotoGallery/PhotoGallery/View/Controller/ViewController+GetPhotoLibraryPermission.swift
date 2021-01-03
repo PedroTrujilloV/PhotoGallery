@@ -39,7 +39,13 @@ extension ViewController {
         }
     }
     
-    func presentSettingsAlert() {
+    func setupDatasource(){
+        store = PhotoStore()
+        store?.fetchByDate()
+        store?.fetchByFavorite()
+    }
+    
+    private func presentSettingsAlert() {
         print("presentSettingsAlert")
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "App Access Denied", message: "PhotoGallery App needs access to photo library in order to work.", preferredStyle: .alert)
