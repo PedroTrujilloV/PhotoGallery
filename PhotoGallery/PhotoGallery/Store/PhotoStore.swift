@@ -18,14 +18,17 @@ class PhotoStore: ObservableObject{
         didSet{ didChange.send(self) }
     }
     
-    private var byFavoriteGallery:Array<PhotoViewModel> = []
-    private var byDateGallery:Array<PhotoViewModel> = []
-    
-    @Published var allPhotos:PHFetchResult<PHAsset> {
+    @Published var removedIndexes:Array<Int> = []{
         didSet{ didChange.send(self) }
     }
     
-    var smarthAlbums: PHFetchResult<PHAssetCollection> 
+    private var byFavoriteGallery:Array<PhotoViewModel> = []
+    private var byDateGallery:Array<PhotoViewModel> = []
+    
+    var allPhotos:PHFetchResult<PHAsset> {
+        didSet{ didChange.send(self) }
+    }
+    var smarthAlbums: PHFetchResult<PHAssetCollection>
     var userCollections: PHFetchResult<PHAssetCollection>
     
     init(){
@@ -65,6 +68,9 @@ class PhotoStore: ObservableObject{
                 let asset = allPhotos.object(at: i)
                 let vm = PhotoViewModel(asset)
                 byDateGallery.append(vm)
+                if asset.isFavorite == false {
+                    removedIndexes.append( allPhotos.index(of: asset) )
+                }
             }
             currentGallery = byDateGallery
         } else {
