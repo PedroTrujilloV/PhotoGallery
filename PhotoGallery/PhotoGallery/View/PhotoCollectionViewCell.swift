@@ -25,7 +25,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     var photoThumbnailImage:UIImageView = {
        let imageV = UIImageView()
        imageV.contentMode = .scaleAspectFill
-        imageV.clipsToBounds = true
+       imageV.clipsToBounds = true
        imageV.backgroundColor = .white
        imageV.translatesAutoresizingMaskIntoConstraints = false
        imageV.image = UIImage(named: "cat_icon")
