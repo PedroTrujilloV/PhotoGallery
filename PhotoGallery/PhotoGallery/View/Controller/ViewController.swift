@@ -37,9 +37,8 @@ class ViewController: UICollectionViewController {
                     collectionView.insertItems(at: removedItems.map({ IndexPath(item: $0, section: 0) }))
                 }
             }
-        } completion: {[weak self] (done) in
+        } completion: { (done) in
             print("animateItemTransition: \(done)")
-            self?.collectionView.reloadData()
         }
     }    
 }
@@ -71,7 +70,7 @@ extension ViewController { // UISegmentedControl
         let titles = ["All","Favorites"]
         segmentControl = UISegmentedControl(items: titles )
         //segmentControl?.tintColor = .systemBackground
-        segmentControl?.backgroundColor = .systemYellow
+        segmentControl?.backgroundColor = .systemOrange
         for i in 0..<titles.count {
             segmentControl?.setWidth(120, forSegmentAt: i)
         }
