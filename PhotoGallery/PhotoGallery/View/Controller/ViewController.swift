@@ -26,7 +26,22 @@ class ViewController: UICollectionViewController {
         navigationItem.title = "Photo Gallery"
         collectionView = PhotoGalleryCollectionView(frame: collectionView.frame)
     }
-
+    
+    func animateItemTransition() {
+        collectionView.performBatchUpdates {
+            if let removedItems = store?.removedIndexes {
+                if segmentControl?.selectedSegmentIndex == 1 {
+                    collectionView.deleteItems(at: removedItems.map({ IndexPath(item: $0, section: 0) }))
+                }
+                if segmentControl?.selectedSegmentIndex == 0 {
+                    collectionView.insertItems(at: removedItems.map({ IndexPath(item: $0, section: 0) }))
+                }
+            }
+        } completion: {[weak self] (done) in
+            print("animateItemTransition: \(done)")
+            self?.collectionView.reloadData()
+        }
+    }    
 }
 
 extension ViewController {  // UICollectionViewDataSource
@@ -51,6 +66,7 @@ extension ViewController {  // UICollectionViewDataSource
 }
 
 extension ViewController { // UISegmentedControl
+    
     private func setupSegmentationController(){
         let titles = ["All","Favorites"]
         segmentControl = UISegmentedControl(items: titles )
@@ -75,6 +91,7 @@ extension ViewController { // UISegmentedControl
         default:
             store?.fetchByFavorite()
         }
+        animateItemTransition()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
